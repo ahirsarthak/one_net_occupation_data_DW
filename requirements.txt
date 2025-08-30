@@ -1,0 +1,6 @@
+# Core: no external dependencies are required.
+# The project uses Python standard library only (sqlite3, argparse, csv, glob, etc.).
+
+# Optional: if your Python build lacks the builtin sqlite3 module (rare
+# on minimal distros/containers), install a drop-in replacement:
+# pysqlite3-binary==0.5.2.post3
