@@ -6,15 +6,15 @@ Lightweight, local-first SQLite warehouse built from O\*NET Occupation Data (plu
 
 - Source: O\*NET Occupation Data (titles/descriptions) and SKA ratings (Skills/Knowledge/Abilities).
 - Docs: https://www.onetcenter.org/database.html
-- Files used (place under `data/raw/`):
-  - `03_occupation_data.sql`
-  - `16_skills.sql`, `15_knowledge.sql`, `11_abilities.sql`
-  - `06_level_scale_anchors.sql`
+- Files used (place under [data/raw](data/raw)):
+  - [data/raw/03_occupation_data.sql](data/raw/03_occupation_data.sql)
+  - [data/raw/16_skills.sql](data/raw/16_skills.sql), [data/raw/15_knowledge.sql](data/raw/15_knowledge.sql), [data/raw/11_abilities.sql](data/raw/11_abilities.sql)
+  - [data/raw/06_level_scale_anchors.sql](data/raw/06_level_scale_anchors.sql)
 - SOC Major Groups lookup (scraped from the website): `soc_major_groups.csv` with columns `code_full,name`.
 
 ## Schema Overview
 
-SQLite schema lives in `warehouse/schema.sql` and loads into `warehouse/onet.db`.
+SQLite schema lives in [warehouse/schema.sql](warehouse/schema.sql) and loads into [warehouse/onet.db](warehouse/onet.db).
 
 See also: [Tables Overview](docs/tables_overview.md) for a narrative of why each table exists and how it’s used.
 
@@ -37,13 +37,13 @@ See also: [Tables Overview](docs/tables_overview.md) for a narrative of why each
 
 High-level flow from raw files to analytics:
 
-- Bronze: `data/raw/*.sql` (O\*NET dumps), optional `soc_major_groups.csv`.
+- Bronze: [data/raw](data/raw) (*.sql O\*NET dumps), optional `soc_major_groups.csv`.
 - Extract: parse SQL inserts in-memory (strip `GO`).
 - Transform: normalize text/flags/dates; validate keys/scales; coerce numerics; drop invalids to `stg_invalid_ska`.
 - Stage: load `stg_*` tables.
 - Build dims: `dim_occupation`, `dim_major_group`, `dim_element`, `dim_scale`, `dim_element_scale`.
 - Build fact: `fact_occupation_element_rating`.
-- Query: run SQL in `queries/` and export CSVs.
+- Query: run SQL in [queries](queries) and export CSVs.
 
 Visual overview (staging tables):
 
@@ -167,7 +167,7 @@ Run and export all to CSV:
 python queries/run_queries.py --db_path warehouse/onet.db --queries_dir queries --out_dir outputs/queries
 ```
 
-CSV results are written to `outputs/queries/`.
+CSV results are written to [outputs/queries](outputs/queries).
 
 ## Future Enhancements
 
