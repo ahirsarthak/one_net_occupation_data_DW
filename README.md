@@ -10,13 +10,13 @@ Lightweight, local-first SQLite warehouse built from O\*NET Occupation Data (plu
   - `03_occupation_data.sql`
   - `16_skills.sql`, `15_knowledge.sql`, `11_abilities.sql`
   - `06_level_scale_anchors.sql`
-- SOC Major Groups lookup (not_included): `soc_major_groups.csv` with columns `code_full,name`.
+- SOC Major Groups lookup (scraped from the website): `soc_major_groups.csv` with columns `code_full,name`.
 
 ## Schema Overview
 
 SQLite schema lives in `warehouse/schema.sql` and loads into `warehouse/onet.db`.
 
-See also: `docs/tables_overview.md` for a narrative of why each table exists and how it’s used.
+See also: [Tables Overview](docs/tables_overview.md) for a narrative of why each table exists and how it’s used.
 
 - `stg_occupation_data`, `stg_skills`, `stg_knowledge`, `stg_abilities`, `stg_level_scale_anchors`, `stg_scales_reference`:
   Staging tables to land raw rows before building dims/fact.
@@ -45,42 +45,21 @@ High-level flow from raw files to analytics:
 - Build fact: `fact_occupation_element_rating`.
 - Query: run SQL in `queries/` and export CSVs.
 
-Visual overview:
+Visual overview (staging tables):
 
-![Staging overview](docs/staging_tables.png)
+![Staging tables overview](docs/staging_tables.png)
 
 ### End-to-End ETL Flowchart
 
 ```mermaid
 flowchart TD
-  A[Raw O*NET SQL dumps<br/>data/raw/*.sql] --> B[Extract<br/>parse INSERTs, strip GO]
-  B --> C[Transform
-  • trim/normalize text
-  • normalize flags/dates
-  • coerce numerics
-  • filter keys/scales
-  • drop invalids → stg_invalid_ska]
-  C --> D[Stage (SQLite)
-  stg_occupation_data
-  stg_skills / stg_knowledge / stg_abilities
-  stg_level_scale_anchors
-  stg_scales_reference]
-  D --> E[Dims
-  dim_occupation (FK→dim_major_group)
-  dim_major_group (CSV)
-  dim_element (from stg_* elements)
-  dim_scale (IM/LV from stg_scales_reference)
-  dim_element_scale (from anchors)]
-  E --> F[Fact
-  fact_occupation_element_rating
-  (occupation_id, element_id, scale_id)
-  FKs → dim_occupation, dim_element, dim_scale]
-  F --> G[Validate (staging)
-  • row counts
-  • SOC mask
-  • key sanity]
-  F --> H[Queries/Exports
-  queries/*.sql → outputs/queries/*.csv]
+  A[Raw O*NET SQL dumps<br/>data/raw/*.sql] --> B[Extract<br/>parse INSERTs; strip GO]
+  B --> C[Transform<br/>trim/normalize text; normalize flags/dates; coerce numerics;<br/>filter keys/scales; drop invalids to stg_invalid_ska]
+  C --> D[Stage (SQLite)<br/>stg_occupation_data; stg_skills/knowledge/abilities;<br/>stg_level_scale_anchors; stg_scales_reference]
+  D --> E[Dims<br/>dim_occupation (FK to dim_major_group); dim_major_group;<br/>dim_element; dim_scale (IM/LV); dim_element_scale]
+  E --> F[Fact<br/>fact_occupation_element_rating (occupation_id, element_id, scale_id;<br/>FKs to dim_occupation, dim_element, dim_scale)]
+  F --> G[Validate (staging)<br/>row counts; SOC mask; key sanity]
+  F --> H[Queries/Exports<br/>queries/*.sql to outputs/queries/*.csv]
 ```
 
 ## Relational Schema
