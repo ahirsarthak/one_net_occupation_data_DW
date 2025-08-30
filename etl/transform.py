@@ -34,15 +34,8 @@ def clean_occupation_records(records: List[Dict[str, str]]) -> List[Dict[str, st
     return clean
 
 
-__all__ = [
-    "normalize_space",
-    "clean_occupation_records",
-    "clean_ska_records",
-    "split_and_clean_ska_records",
-]
+ 
 
-
-# --- New: domain transforms for Skills/Knowledge/Abilities (not yet wired) ---
 
 _ALLOWED_SCALES = {"IM", "LV"}
 _SOC_RE = re.compile(r"^\d{2}-\d{4}\.\d{2}$")
@@ -83,11 +76,6 @@ def _to_float(value: Optional[Any]) -> Optional[float]:
         return float(s)
     except Exception:
         return None
-
-
-def _to_int(value: Optional[Any]) -> Optional[int]:
-    v = _to_float(value)
-    return int(v) if v is not None else None
 
 
 def _norm_date_iso(date_value: Optional[Any]) -> Optional[str]:
@@ -210,3 +198,11 @@ def split_and_clean_ska_records(records: List[Dict[str, Any]], domain: str) -> t
             continue
         valid.extend(cleaned)
     return valid, invalid
+
+
+__all__ = [
+    "normalize_space",
+    "clean_occupation_records",
+    "clean_ska_records",
+    "split_and_clean_ska_records",
+]
