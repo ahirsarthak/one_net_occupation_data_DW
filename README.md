@@ -1,5 +1,7 @@
 ## Tulsa Workforce: O\*NET Occupation Data Warehouse (Prototype)
 
+Video Submission: I’m Sarthak Ahir, submitting this assessment as part of my application for the Data Warehouse Engineer role at Tulsa. Repo: https://github.com/ahirsarthak/one_net_occupation_data_DW • Video: https://youtu.be/0ybAVfZQaT4
+
 Lightweight, local-first SQLite warehouse built from O\*NET Occupation Data (plus Skills/Knowledge/Abilities). Pure-Python ETL (stdlib only), clear schema, and ready-to-run sample queries.
 
 ## Dataset
