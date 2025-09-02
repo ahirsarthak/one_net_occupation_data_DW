@@ -2,7 +2,7 @@ import argparse
 import os
 import sqlite3
 
-# Simple pipeline: extract → transform → load
+# extract → transform → load
 from etl.extract import load_onet_records
 from etl.transform import clean_occupation_records, split_and_clean_ska_records
 from etl.load import (

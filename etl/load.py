@@ -48,9 +48,6 @@ def load_dim_occupation(conn: sqlite3.Connection, records: Sequence[Dict[str, An
     return len(records)
 
 
-# Tokenization removed – no vocab/edges loading
-
-
 def load_dim_major_group(conn: sqlite3.Connection, csv_path: str) -> int:
     """Load SOC major group lookup from CSV. Returns count loaded.
     CSV columns: code_full,name; derives 2-digit code as PK.

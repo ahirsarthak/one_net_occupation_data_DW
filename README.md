@@ -33,11 +33,25 @@ See also: [Tables Overview](docs/tables_overview.md) for a narrative of why each
 - `fact_occupation_element_rating`:
   Unified SKA fact with grain (`occupation_id`, `element_id`, `scale_id`), measures (`data_value`, `n`, `standard_error`, CI bounds), flags, `date_updated`, and `domain_source`. Join to `dim_element` for domain.
 
+## Domain Scope: SKA + Anchors (Why)
+
+- Skills, Knowledge, Abilities (SKA): core, comparable signals
+  - Provide occupation‑level ratings on two consistent scales: IM (Importance) and LV (Level).
+  - Enable high‑value insights out of the box: top elements by IM, LV vs IM gaps, domain rollups.
+  - Stable and well‑documented in O\*NET; easy to reason about across occupations.
+- Scale Anchors (for LV; IM later if needed): interpretability layer
+  - Per (element, scale, level) descriptions that translate numeric LV into human‑readable examples.
+  - Stored in `dim_element_scale` (FKs to `dim_element` and `dim_scale`) and joined in queries for readable outputs.
+- Why these first (and not more): tight, trustworthy MVP
+  - Keeps the star schema clear; enforces FKs (including `fact.scale_id → dim_scale`).
+  - Minimizes transform rules (only IM/LV); avoids over‑modeling while delivering useful insights.
+  - Extensible: add Tasks, Work Activities, Education, Interests later via the same pattern (stage → conform → join).
+
 ## Pipeline Flow
 
 High-level flow from raw files to analytics:
 
-- Bronze: [data/raw](data/raw) (*.sql O\*NET dumps), optional `soc_major_groups.csv`.
+- Bronze: [data/raw](data/raw) (\*.sql O\*NET dumps), optional `soc_major_groups.csv`.
 - Extract: parse SQL inserts in-memory (strip `GO`).
 - Transform: normalize text/flags/dates; validate keys/scales; coerce numerics; drop invalids to `stg_invalid_ska`.
 - Stage: load `stg_*` tables.
