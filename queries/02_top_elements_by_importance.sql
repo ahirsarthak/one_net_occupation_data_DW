@@ -1,4 +1,4 @@
--- Top elements by average Importance (IM) across all occupations
+-- Top 20 elements by average Importance (IM) across all occupations
 SELECT
   e.domain,
   f.element_id,

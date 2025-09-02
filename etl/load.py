@@ -344,25 +344,6 @@ def load_fact_occupation_element_rating(conn: sqlite3.Connection) -> int:
     )
     return int(total)
 
-
-
-__all__ = [
-    "init_db",
-    "load_stg_occupation",
-    "load_dim_occupation",
-    "load_dim_major_group",
-    "load_stg_scales_reference",
-    "load_stg_skills",
-    "load_stg_knowledge",
-    "load_stg_abilities",
-    "load_stg_level_scale_anchors",
-    "load_dim_element",
-    "load_dim_element_scale_anchor",
-    "load_fact_occupation_element_rating",
-    "load_stg_invalid_ska",
-]
-
-
 def load_stg_invalid_ska(conn: sqlite3.Connection, records: Sequence[Dict[str, Any]]) -> int:
     """Truncate and load invalid SKA records into stg_invalid_ska for diagnostics."""
     conn.execute("DELETE FROM stg_invalid_ska")
@@ -395,3 +376,19 @@ def load_stg_invalid_ska(conn: sqlite3.Connection, records: Sequence[Dict[str, A
         recs,
     )
     return len(recs)
+
+__all__ = [
+    "init_db",
+    "load_stg_occupation",
+    "load_dim_occupation",
+    "load_dim_major_group",
+    "load_stg_scales_reference",
+    "load_stg_skills",
+    "load_stg_knowledge",
+    "load_stg_abilities",
+    "load_stg_level_scale_anchors",
+    "load_dim_element",
+    "load_dim_element_scale_anchor",
+    "load_fact_occupation_element_rating",
+    "load_stg_invalid_ska",
+]

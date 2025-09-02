@@ -56,10 +56,10 @@ flowchart TD
   A[Raw O*NET SQL dumps<br/>data/raw/*.sql] --> B[Extract<br/>parse INSERTs; strip GO]
   B --> C[Transform<br/>trim/normalize text; normalize flags/dates; coerce numerics;<br/>filter keys/scales; drop invalids to stg_invalid_ska]
   C --> D[Stage SQLite<br/>stg_occupation_data; stg_skills / stg_knowledge / stg_abilities;<br/>stg_level_scale_anchors; stg_scales_reference]
+  D --> G[Validate staging<br/>row counts; SOC mask; key sanity]
   D --> E[Dims<br/>dim_occupation - FK to dim_major_group; dim_major_group;<br/>dim_element; dim_scale IM/LV; dim_element_scale]
   E --> F[Fact
   fact_occupation_element_rating<br/>keys: occupation_id, element_id, scale_id<br/>FKs to dim_occupation, dim_element, dim_scale]
-  F --> G[Validate staging<br/>row counts; SOC mask; key sanity]
   F --> H[Queries and exports<br/>queries/*.sql -> outputs/queries/*.csv]
 ```
 

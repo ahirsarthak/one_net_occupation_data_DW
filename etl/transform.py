@@ -34,9 +34,6 @@ def clean_occupation_records(records: List[Dict[str, str]]) -> List[Dict[str, st
     return clean
 
 
- 
-
-
 _ALLOWED_SCALES = {"IM", "LV"}
 _SOC_RE = re.compile(r"^\d{2}-\d{4}\.\d{2}$")
 
